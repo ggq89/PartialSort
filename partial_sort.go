@@ -178,25 +178,6 @@ func solution5(BigArr, ResArr []int)  {
 	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
 }
 
-//merge sorted sub-array data[p~q) and data[q~r) in-place, 0 <= p <= q < r= < in.Len()
-func merge(data sort.Interface, p, q, r int) {
-	i := p
-	j := q
-	for k := p; k < r; k++ {
-		if j >= r {
-			break
-		}
-
-		if !data.Less(i, j) {
-			for m := j; m > i; m-- {
-				data.Swap(m, m-1)
-			}
-			j++
-		}
-		i++
-	}
-}
-
 func solution6(BigArr, ResArr []int)  {
 	defer func(start time.Time) {
 		fmt.Println(time.Since(start))
@@ -222,7 +203,7 @@ func solution6(BigArr, ResArr []int)  {
 			//太多杂乱元素的时候排序
 			if ZoneBeginIdx < SplitPoint {
 				sort.Sort(sort.Reverse(sort.IntSlice(ResArr[SplitPoint:RES_ARR_SIZE])))
-				merge(sort.Reverse(sort.IntSlice(ResArr)),0, ZoneBeginIdx, RES_ARR_SIZE-1)
+				symMerge(sort.Reverse(sort.IntSlice(ResArr)),0, SplitPoint, RES_ARR_SIZE)
 				MinElemIdx = RES_ARR_SIZE - 1
 				ZoneBeginIdx = MinElemIdx
 				continue
@@ -266,78 +247,6 @@ func solution7(BigArr, ResArr []int) {
 	heapSort(sort.Reverse(sort.IntSlice(ResArr)))
 }
 
-func solution8(BigArr, ResArr []int) {
-	defer func(start time.Time) {
-		fmt.Println(time.Since(start))
-	}(time.Now())
-
-	//取最前面的RES_ARR_SIZE个
-	copyArr(ResArr, BigArr, RES_ARR_SIZE)
-	//建min-heap
-	sort.Sort(sort.IntSlice(ResArr))
-	minElemIdx := 0
-
-	//遍历后续的元素
-	for i := RES_ARR_SIZE; i < BIG_ARR_SIZE; i++ {
-		if BigArr[i] > ResArr[minElemIdx] {
-			//当这个后续元素比ResArr中最小的元素大，则替换
-			ResArr[minElemIdx] = BigArr[i]
-			// 重新调整min-heap
-			siftDown(sort.Reverse(sort.IntSlice(ResArr)), minElemIdx, RES_ARR_SIZE, minElemIdx)
-		}
-	}
-
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
-}
-
-func solution9(BigArr, ResArr []int) {
-	defer func(start time.Time) {
-		fmt.Println(time.Since(start))
-	}(time.Now())
-
-	//取最前面的RES_ARR_SIZE个
-	copyArr(ResArr, BigArr, RES_ARR_SIZE)
-	//建min-heap
-	makeHeap(sort.Reverse(sort.IntSlice(ResArr)))
-	minElemIdx := 0
-
-	//遍历后续的元素
-	for i := RES_ARR_SIZE; i < BIG_ARR_SIZE; i++ {
-		if BigArr[i] > ResArr[minElemIdx] {
-			//当这个后续元素比ResArr中最小的元素大，则替换
-			ResArr[minElemIdx] = BigArr[i]
-			// 重新调整min-heap
-			siftDown(sort.Reverse(sort.IntSlice(ResArr)), minElemIdx, RES_ARR_SIZE, minElemIdx)
-		}
-	}
-
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
-}
-
-func solution10(BigArr, ResArr []int) {
-	defer func(start time.Time) {
-		fmt.Println(time.Since(start))
-	}(time.Now())
-
-	//取最前面的RES_ARR_SIZE个
-	copyArr(ResArr, BigArr, RES_ARR_SIZE)
-	//建min-heap
-	sort.Sort(sort.IntSlice(ResArr))
-	minElemIdx := 0
-
-	//遍历后续的元素
-	for i := RES_ARR_SIZE; i < BIG_ARR_SIZE; i++ {
-		if BigArr[i] > ResArr[minElemIdx] {
-			//当这个后续元素比ResArr中最小的元素大，则替换
-			ResArr[minElemIdx] = BigArr[i]
-			// 重新调整min-heap
-			siftDown(sort.Reverse(sort.IntSlice(ResArr)), minElemIdx, RES_ARR_SIZE, minElemIdx)
-		}
-	}
-
-	heapSort(sort.Reverse(sort.IntSlice(ResArr)))
-}
-
 type PartialSortFn func(BigArr, ResArr []int)
 
 func testFn(fn PartialSortFn, BigArr []int)  {
@@ -357,7 +266,4 @@ func main() {
 	testFn(solution5, BigArr)
 	testFn(solution6, BigArr)
 	testFn(solution7, BigArr)
-	testFn(solution8, BigArr)
-	testFn(solution9, BigArr)
-	testFn(solution10, BigArr)
 }
