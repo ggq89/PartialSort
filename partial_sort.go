@@ -178,18 +178,18 @@ func solution5(BigArr, ResArr []int)  {
 	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
 }
 
-//merge sorted sub-array in[p~q] and in[q+1~r] in-place, 0 <= p <= q < r= < in.Len()-1
-func merge(in sort.Interface, p, q, r int) {
+//merge sorted sub-array data[p~q) and data[q~r) in-place, 0 <= p <= q < r= < in.Len()
+func merge(data sort.Interface, p, q, r int) {
 	i := p
-	j := q + 1
+	j := q
 	for k := p; k < r; k++ {
-		if j > r {
+		if j >= r {
 			break
 		}
 
-		if !in.Less(i, j) {
+		if !data.Less(i, j) {
 			for m := j; m > i; m-- {
-				in.Swap(m, m-1)
+				data.Swap(m, m-1)
 			}
 			j++
 		}
@@ -264,48 +264,6 @@ func solution7(BigArr, ResArr []int) {
 	}
 
 	heapSort(sort.Reverse(sort.IntSlice(ResArr)))
-}
-
-// siftDown implements the heap property on data[lo, hi).
-// first is an offset into the array where the root of the heap lies.
-func siftDown(data sort.Interface, lo, hi, first int) {
-	root := lo
-	for {
-		child := 2*root + 1
-		if child >= hi {
-			break
-		}
-		if child+1 < hi && data.Less(first+child, first+child+1) {
-			child++
-		}
-		if !data.Less(first+root, first+child) {
-			return
-		}
-		data.Swap(first+root, first+child)
-		root = child
-	}
-}
-
-// Build heap with greatest element at top.
-func makeHeap(data sort.Interface) {
-	first := 0
-	hi := data.Len()
-
-	for i := (hi - 1) / 2; i >= 0; i-- {
-		siftDown(data, i, hi, first)
-	}
-}
-
-func heapSort(data sort.Interface) {
-	first := 0
-	lo := 0
-	hi := data.Len()
-
-	// Pop elements, largest first, into end of data.
-	for i := hi - 1; i >= 0; i-- {
-		data.Swap(first, first+i)
-		siftDown(data, lo, i, first)
-	}
 }
 
 func solution8(BigArr, ResArr []int) {

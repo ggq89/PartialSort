@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-func heapSort(data sort.Interface, a, b int) {
+func HeapSort(data sort.Interface, a, b int) {
 	first := a
 	lo := 0
 	hi := b - a
@@ -39,5 +39,27 @@ func siftDown(data sort.Interface, lo, hi, first int) {
 		// 交换父节点和最大的子节点的值，继续对下一层做以上处理
 		data.Swap(first+root, first+child)
 		root = child
+	}
+}
+
+// Build heap with greatest element at top.
+func makeHeap(data sort.Interface) {
+	first := 0
+	hi := data.Len()
+
+	for i := (hi - 1) / 2; i >= 0; i-- {
+		siftDown(data, i, hi, first)
+	}
+}
+
+func heapSort(data sort.Interface) {
+	first := 0
+	lo := 0
+	hi := data.Len()
+
+	// Pop elements, largest first, into end of data.
+	for i := hi - 1; i >= 0; i-- {
+		data.Swap(first, first+i)
+		siftDown(data, lo, i, first)
 	}
 }
