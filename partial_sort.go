@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	BIG_ARR_SIZE = 10*10*10*10*10*10
+	BIG_ARR_SIZE = 10*10*10*10*10*10*10
 	//BIG_ARR_SIZE = 10*4
-	RES_ARR_SIZE = 10*10*10
+	RES_ARR_SIZE = 10*10*10*10
 	//RES_ARR_SIZE = 10
 	SplitPoint = 400
 	//SplitPoint =0
@@ -245,6 +245,7 @@ func solution7(BigArr, ResArr []int) {
 	}
 
 	heapSort(sort.Reverse(sort.IntSlice(ResArr)))
+	//sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
 }
 
 type PartialSortFn func(BigArr, ResArr []int)
@@ -259,8 +260,8 @@ func main() {
 	fillArr()
 	//fmt.Println(BigArr)
 
-	testFn(solution1, BigArr)
-	testFn(solution2, BigArr)
+	//testFn(solution1, BigArr)
+	//testFn(solution2, BigArr)
 	testFn(solution3, BigArr)
 	testFn(solution4, BigArr)
 	testFn(solution5, BigArr)
