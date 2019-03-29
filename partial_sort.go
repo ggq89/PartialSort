@@ -8,12 +8,12 @@ import (
 )
 
 const (
-	BIG_ARR_SIZE = 10*10*10*10*10*10*10
+	BIG_ARR_SIZE = 10*10*10*10*10*10*10*10
 	//BIG_ARR_SIZE = 10*4
-	RES_ARR_SIZE = 10*10*10*10
-	//RES_ARR_SIZE = 10
-	SplitPoint = 400
-	//SplitPoint =0
+	//RES_ARR_SIZE = 10*10*10
+	RES_ARR_SIZE = 10*10
+	//SplitPoint = 400
+	SplitPoint =0
 )
 
 var (
@@ -231,7 +231,7 @@ func solution7(BigArr, ResArr []int) {
 	//取最前面的RES_ARR_SIZE个
 	copyArr(ResArr, BigArr, RES_ARR_SIZE)
 	//建min-heap
-	makeHeap(sort.Reverse(sort.IntSlice(ResArr)))
+	makeHeap(sort.Reverse(sort.IntSlice(ResArr)), 0, RES_ARR_SIZE)
 	minElemIdx := 0
 
 	//遍历后续的元素
@@ -244,7 +244,7 @@ func solution7(BigArr, ResArr []int) {
 		}
 	}
 
-	heapSort(sort.Reverse(sort.IntSlice(ResArr)))
+	heapSort(sort.Reverse(sort.IntSlice(ResArr)), 0, RES_ARR_SIZE)
 	//sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
 }
 
