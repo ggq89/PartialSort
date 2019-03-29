@@ -6,222 +6,208 @@ import (
 	"sort"
 )
 
-func solution1(BigArr, ResArr []int) {
+func solution1(data sort.Interface) {
 	defer func(start time.Time) {
 		fmt.Println(time.Since(start))
 	}(time.Now())
 
 	for i := 0; i < RES_ARR_SIZE; i++ {
 		idx := i
+		// 选出[i, data.Len)中最小的元素
 		for j := i+1; j < BIG_ARR_SIZE; j++ {
-			if BigArr[j] > BigArr[idx] {
+			if data.Less(j, idx) {
 				idx = j
 			}
 		}
-		ResArr[i] = BigArr[idx]
-		BigArr[i], BigArr[idx] = BigArr[idx], BigArr[i]
+		data.Swap(i, idx)
 	}
 }
 
-func copyArr(desArr, sourArr []int, len int) {
-	for i := 0; i<len; i++ {
-		desArr[i] = sourArr[i]
-	}
-}
-
-func solution2(BigArr, ResArr []int) {
-	cpBigArr :=make([]int, 0, BIG_ARR_SIZE)
-	cpBigArr = append(cpBigArr, BigArr...)
-
+func solution2(data sort.Interface) {
 	defer func(start time.Time) {
 		fmt.Println(time.Since(start))
 	}(time.Now())
 
-	sort.Sort(sort.Reverse(sort.IntSlice(cpBigArr)))
-	copyArr(ResArr, cpBigArr, RES_ARR_SIZE)
+	sort.Sort(data)
 }
 
-func solution3(BigArr, ResArr []int) {
+func solution3(data sort.Interface) {
 	defer func(start time.Time) {
 		fmt.Println(time.Since(start))
 	}(time.Now())
-
-	//取最前面的RES_ARR_SIZE个
-	copyArr(ResArr, BigArr, RES_ARR_SIZE)
 
 	//标记是否发生过交换
 	bExchanged := true
-
 	var idx int
+
 	//遍历后续的元素
 	for i := RES_ARR_SIZE; i < BIG_ARR_SIZE; i++ {
 		//如果上一轮发生过交换
 		if bExchanged {
-			//找出ResArr中最小的元素
+			//找出ResArr中最大的元素
 			idx = 0
 			for j := idx + 1; j < RES_ARR_SIZE; j++ {
-				if ResArr[j] > ResArr[idx] {
+				if data.Less(idx, j) {
 					idx = j
 				}
 			}
 		}
 
 		bExchanged = false
-		//这个后续元素比ResArr中最小的元素大，则替换。
-		if BigArr[i] > ResArr[idx] {
+		//这个后续元素比ResArr中最大的元素小，则替换
+		if data.Less(i, idx) {
 			bExchanged = true
-			ResArr[idx] = BigArr[i]
+			data.Swap(i, idx)
 		}
 	}
 
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
+	intervalSort(data, 0, RES_ARR_SIZE)
 }
 
-func solution4(BigArr, ResArr []int)  {
+func solution4(data sort.Interface)  {
 	defer func(start time.Time) {
 		fmt.Println(time.Since(start))
 	}(time.Now())
 
-	//取最前面的RES_ARR_SIZE个
-	copyArr(ResArr, BigArr, RES_ARR_SIZE)
 	//排序
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
-	//最小元素索引
-	MinElemIdx := RES_ARR_SIZE - 1
+	intervalSort(data, 0, RES_ARR_SIZE)
+
+	//最大元素索引
+	maxElemIdx := RES_ARR_SIZE - 1
 	//可能产生交换的区域的最小索引
-	ZoneBeginIdx := MinElemIdx
+	zoneBeginIdx := maxElemIdx
+
 	//遍历后续的元素
 	for i := RES_ARR_SIZE; i < BIG_ARR_SIZE; i++ {
-		//这个后续元素比ResArr中最小的元素大，则替换。
-		if BigArr[i] > ResArr[MinElemIdx] {
-			ResArr[MinElemIdx] = BigArr[i]
-			if ZoneBeginIdx == MinElemIdx && ZoneBeginIdx > 0 {
-				ZoneBeginIdx--
+		//这个后续元素比ResArr中最大的元素小，则替换
+		if data.Less(i, maxElemIdx) {
+			data.Swap(maxElemIdx, i)
+			if zoneBeginIdx == maxElemIdx && zoneBeginIdx > 0 {
+				zoneBeginIdx--
 			}
-			//查找最小元素
-			idx := ZoneBeginIdx
+
+			//查找最大元素
+			idx := zoneBeginIdx
 			for j := idx + 1; j < RES_ARR_SIZE; j++ {
-				if ResArr[j] > ResArr[idx] {
+				if data.Less(idx, j) {
 					idx = j
 				}
 			}
-			MinElemIdx = idx
+			maxElemIdx = idx
 		}
 	}
 
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
+	intervalSort(data, 0, RES_ARR_SIZE)
 }
 
-func solution5(BigArr, ResArr []int)  {
+func solution5(data sort.Interface)  {
 	defer func(start time.Time) {
 		fmt.Println(time.Since(start))
 	}(time.Now())
 
-	//取最前面的RES_ARR_SIZE个
-	copyArr(ResArr, BigArr, RES_ARR_SIZE)
 	//排序
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
-	//最小元素索引
-	MinElemIdx := RES_ARR_SIZE - 1
+	intervalSort(data, 0, RES_ARR_SIZE)
+
+	//最大元素索引
+	maxElemIdx := RES_ARR_SIZE - 1
 	//可能产生交换的区域的最小索引
-	ZoneBeginIdx := MinElemIdx
+	zoneBeginIdx := maxElemIdx
+
 	//遍历后续的元素
 	for i := RES_ARR_SIZE; i < BIG_ARR_SIZE; i++ {
-		//这个后续元素比ResArr中最小的元素大，则替换。
-		if BigArr[i] > ResArr[MinElemIdx] {
-			ResArr[MinElemIdx] = BigArr[i]
-			if ZoneBeginIdx == MinElemIdx && ZoneBeginIdx > 0 {
-				ZoneBeginIdx--
+		//这个后续元素比ResArr中最大的元素小，则替换
+		if data.Less(i, maxElemIdx) {
+			data.Swap(maxElemIdx, i)
+			if zoneBeginIdx == maxElemIdx && zoneBeginIdx > 0 {
+				zoneBeginIdx--
 			}
 
 			//太多杂乱元素的时候排序
-			if ZoneBeginIdx < SplitPoint {
-				sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
-				MinElemIdx = RES_ARR_SIZE - 1
-				ZoneBeginIdx = MinElemIdx
+			if zoneBeginIdx < SplitPoint {
+				intervalSort(data, 0, RES_ARR_SIZE)
+				maxElemIdx = RES_ARR_SIZE - 1
+				zoneBeginIdx = maxElemIdx
 				continue
 			}
-			
-			//查找最小元素
-			idx := ZoneBeginIdx
+
+			//查找最大元素
+			idx := zoneBeginIdx
 			for j := idx + 1; j < RES_ARR_SIZE; j++ {
-				if ResArr[j] > ResArr[idx] {
+				if data.Less(idx, j) {
 					idx = j
 				}
 			}
-			MinElemIdx = idx
+			maxElemIdx = idx
 		}
 	}
 
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
+	intervalSort(data, 0, RES_ARR_SIZE)
 }
 
-func solution6(BigArr, ResArr []int)  {
+func solution6(data sort.Interface)  {
 	defer func(start time.Time) {
 		fmt.Println(time.Since(start))
 	}(time.Now())
 
-	//取最前面的RES_ARR_SIZE个
-	copyArr(ResArr, BigArr, RES_ARR_SIZE)
 	//排序
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
-	//最小元素索引
-	MinElemIdx := RES_ARR_SIZE - 1
+	intervalSort(data, 0, RES_ARR_SIZE)
+
+	//最大元素索引
+	maxElemIdx := RES_ARR_SIZE - 1
 	//可能产生交换的区域的最小索引
-	ZoneBeginIdx := MinElemIdx
+	zoneBeginIdx := maxElemIdx
+
 	//遍历后续的元素
 	for i := RES_ARR_SIZE; i < BIG_ARR_SIZE; i++ {
-		//这个后续元素比ResArr中最小的元素大，则替换。
-		if BigArr[i] > ResArr[MinElemIdx] {
-			ResArr[MinElemIdx] = BigArr[i]
-			if ZoneBeginIdx == MinElemIdx && ZoneBeginIdx > 0 {
-				ZoneBeginIdx--
+		//这个后续元素比ResArr中最大的元素小，则替换
+		if data.Less(i, maxElemIdx) {
+			data.Swap(maxElemIdx, i)
+			if zoneBeginIdx == maxElemIdx && zoneBeginIdx > 0 {
+				zoneBeginIdx--
 			}
 
 			//太多杂乱元素的时候排序
-			if ZoneBeginIdx < SplitPoint {
-				sort.Sort(sort.Reverse(sort.IntSlice(ResArr[SplitPoint:RES_ARR_SIZE])))
-				symMerge(sort.Reverse(sort.IntSlice(ResArr)),0, SplitPoint, RES_ARR_SIZE)
-				MinElemIdx = RES_ARR_SIZE - 1
-				ZoneBeginIdx = MinElemIdx
+			if zoneBeginIdx < SplitPoint {
+				intervalSort(data, 0, RES_ARR_SIZE)
+				symMerge(data,0, SplitPoint, RES_ARR_SIZE)
+				maxElemIdx = RES_ARR_SIZE - 1
+				zoneBeginIdx = maxElemIdx
 				continue
 			}
 
-			//查找最小元素
-			idx := ZoneBeginIdx
+			//查找最大元素
+			idx := zoneBeginIdx
 			for j := idx + 1; j < RES_ARR_SIZE; j++ {
-				if ResArr[j] > ResArr[idx] {
+				if data.Less(idx, j) {
 					idx = j
 				}
 			}
-			MinElemIdx = idx
+			maxElemIdx = idx
 		}
 	}
 
-	sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
+	intervalSort(data, 0, RES_ARR_SIZE)
 }
 
-func solution7(BigArr, ResArr []int) {
+func solution7(data sort.Interface) {
 	defer func(start time.Time) {
 		fmt.Println(time.Since(start))
 	}(time.Now())
 
-	//取最前面的RES_ARR_SIZE个
-	copyArr(ResArr, BigArr, RES_ARR_SIZE)
-	//建min-heap
-	makeHeap(sort.Reverse(sort.IntSlice(ResArr)), 0, RES_ARR_SIZE)
+	//建max-heap
+	makeHeap(data, 0, RES_ARR_SIZE)
 	minElemIdx := 0
 
 	//遍历后续的元素
 	for i := RES_ARR_SIZE; i < BIG_ARR_SIZE; i++ {
-		if BigArr[i] > ResArr[minElemIdx] {
-			//当这个后续元素比ResArr中最小的元素大，则替换
-			ResArr[minElemIdx] = BigArr[i]
-			// 重新调整min-heap
-			siftDown(sort.Reverse(sort.IntSlice(ResArr)), minElemIdx, RES_ARR_SIZE, minElemIdx)
+		if data.Less(i, minElemIdx) {
+			//当这个后续元素比ResArr中最大的元素小，则替换
+			data.Swap(i, minElemIdx)
+			// 重新调整max-heap
+			siftDown(data, minElemIdx, RES_ARR_SIZE, minElemIdx)
 		}
 	}
 
-	heapSort(sort.Reverse(sort.IntSlice(ResArr)), 0, RES_ARR_SIZE)
-	//sort.Sort(sort.Reverse(sort.IntSlice(ResArr)))
+	// 对max-heap进行对排序
+	heapsort(data, 0, RES_ARR_SIZE)
 }
