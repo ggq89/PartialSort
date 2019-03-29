@@ -14,11 +14,10 @@ const (
 
 func fillSlice(data []int) {
 	len := len(data)
-	n := len*10
 
 	rand.Seed(time.Now().Unix())
 	for i := 0; i < len; i++ {
-		data[i] = rand.Intn(n)
+		data[i] = rand.Int()
 	}
 }
 
@@ -36,7 +35,7 @@ func main() {
 	fillSlice(bigArr[:])
 
 	//testFn(solution1, bigArr)
-	//testFn(solution2, bigArr)
+	testFn(solution2, bigArr)
 	testFn(solution3, bigArr)
 	testFn(solution4, bigArr)
 	testFn(solution5, bigArr)
