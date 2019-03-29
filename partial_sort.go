@@ -129,7 +129,6 @@ func solution5(data sort.Interface, m int)  {
 
 const (
 	SplitPoint = 400
-	//SplitPoint =0
 )
 
 func solution6(data sort.Interface, m int)  {

@@ -7,13 +7,6 @@ import (
 	"fmt"
 )
 
-const (
-	BIG_ARR_SIZE = 10*10*10*10*10*10
-	RES_ARR_SIZE = 10*10*10
-	//BIG_ARR_SIZE = 10*4
-	//RES_ARR_SIZE = 10
-)
-
 func fillSlice(data []int) {
 	len := len(data)
 	n := len*10
@@ -26,24 +19,31 @@ func fillSlice(data []int) {
 
 type PartialSortFn func(data sort.Interface, m int)
 
-func testFn(fn PartialSortFn, BigArr [BIG_ARR_SIZE]int, m int)  {
+func testFn(fn PartialSortFn, data [bigArrSize]int)  {
 	start :=time.Now()
-	fn(sort.Reverse(sort.IntSlice(BigArr[:])), m)
+	fn(sort.Reverse(sort.IntSlice(data[:])), resArrSize)
 
 	fmt.Println(time.Since(start))
-	//fmt.Println(BigArr[:m])
+	//fmt.Println(data[:resArrSize])
 }
 
-func main() {
-	var BigArr [BIG_ARR_SIZE]int
-	fillSlice(BigArr[:])
-	//fmt.Println(BigArr)
+const (
+	bigArrSize = 10*10*10*10*10*10
+	resArrSize = 10*10*10
+	//bigArrSize = 10*4
+	//resArrSize = 10
+)
 
-	//testFn(solution1, BigArr, RES_ARR_SIZE)
-	//testFn(solution2, BigArr, RES_ARR_SIZE)
-	testFn(solution3, BigArr, RES_ARR_SIZE)
-	testFn(solution4, BigArr, RES_ARR_SIZE)
-	testFn(solution5, BigArr, RES_ARR_SIZE)
-	testFn(solution6, BigArr, RES_ARR_SIZE)
-	testFn(solution7, BigArr, RES_ARR_SIZE)
+func main() {
+	var bigArr [bigArrSize]int
+	fillSlice(bigArr[:])
+	//fmt.Println(bigArr)
+
+	//testFn(solution1, bigArr)
+	//testFn(solution2, bigArr)
+	testFn(solution3, bigArr)
+	testFn(solution4, bigArr)
+	testFn(solution5, bigArr)
+	testFn(solution6, bigArr)
+	testFn(solution7, bigArr)
 }

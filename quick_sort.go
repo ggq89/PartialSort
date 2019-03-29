@@ -12,7 +12,7 @@ func intervalSort(data sort.Interface, a, b int) {
 }
 
 // maxDepth returns a threshold at which quicksort should switch
-// to heapsort. It returns 2*ceil(lg(n+1)).
+// to heapSort. It returns 2*ceil(lg(n+1)).
 func maxDepth(n int) int {
 	var depth int
 	for i := n; i > 0; i >>= 1 {
