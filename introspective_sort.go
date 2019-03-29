@@ -7,7 +7,7 @@ import "sort"
 // Sort sorts data.
 // It makes one call to data.Len to determine n, and O(n*log(n)) calls to
 // data.Less and data.Swap. The sort is not guaranteed to be stable.
-func intervalSort(data sort.Interface, a, b int) {
+func introspectiveSort(data sort.Interface, a, b int) {
 	quickSort(data, a, b, maxDepth(b-a))
 }
 

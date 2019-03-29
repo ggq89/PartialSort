@@ -50,12 +50,12 @@ func solution3(data sort.Interface, m int) {
 		}
 	}
 
-	intervalSort(data, 0, m)
+	introspectiveSort(data, 0, m)
 }
 
 func solution4(data sort.Interface, m int)  {
 	//排序
-	intervalSort(data, 0, m)
+	introspectiveSort(data, 0, m)
 
 	//最大元素索引
 	maxElemIdx := m - 1
@@ -83,12 +83,12 @@ func solution4(data sort.Interface, m int)  {
 		}
 	}
 
-	intervalSort(data, 0, m)
+	introspectiveSort(data, 0, m)
 }
 
 func solution5(data sort.Interface, m int)  {
 	//排序
-	intervalSort(data, 0, m)
+	introspectiveSort(data, 0, m)
 
 	//最大元素索引
 	maxElemIdx := m - 1
@@ -107,7 +107,7 @@ func solution5(data sort.Interface, m int)  {
 
 			//太多杂乱元素的时候排序
 			if zoneBeginIdx < SplitPoint {
-				intervalSort(data, 0, m)
+				introspectiveSort(data, 0, m)
 				maxElemIdx = m - 1
 				zoneBeginIdx = maxElemIdx
 				continue
@@ -124,7 +124,7 @@ func solution5(data sort.Interface, m int)  {
 		}
 	}
 
-	intervalSort(data, 0, m)
+	introspectiveSort(data, 0, m)
 }
 
 const (
@@ -133,7 +133,7 @@ const (
 
 func solution6(data sort.Interface, m int)  {
 	//排序
-	intervalSort(data, 0, m)
+	introspectiveSort(data, 0, m)
 
 	//最大元素索引
 	maxElemIdx := m - 1
@@ -152,8 +152,10 @@ func solution6(data sort.Interface, m int)  {
 
 			//太多杂乱元素的时候排序
 			if zoneBeginIdx < SplitPoint {
-				intervalSort(data, 0, m)
-				symMerge(data,0, zoneBeginIdx+1, m)
+				messyBeginIdx := zoneBeginIdx+1
+				introspectiveSort(data, messyBeginIdx, m)
+				symMerge(data,0, messyBeginIdx, m)
+
 				maxElemIdx = m - 1
 				zoneBeginIdx = maxElemIdx
 				continue
@@ -170,7 +172,7 @@ func solution6(data sort.Interface, m int)  {
 		}
 	}
 
-	intervalSort(data, 0, m)
+	introspectiveSort(data, 0, m)
 }
 
 func solution7(data sort.Interface, m int) {

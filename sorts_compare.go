@@ -7,6 +7,11 @@ import (
 	"fmt"
 )
 
+const (
+	bigArrSize = 10*10*10*10*10*10
+	resArrSize = 10*10*10
+)
+
 func fillSlice(data []int) {
 	len := len(data)
 	n := len*10
@@ -24,20 +29,11 @@ func testFn(fn PartialSortFn, data [bigArrSize]int)  {
 	fn(sort.Reverse(sort.IntSlice(data[:])), resArrSize)
 
 	fmt.Println(time.Since(start))
-	//fmt.Println(data[:resArrSize])
 }
-
-const (
-	bigArrSize = 10*10*10*10*10*10
-	resArrSize = 10*10*10
-	//bigArrSize = 10*4
-	//resArrSize = 10
-)
 
 func main() {
 	var bigArr [bigArrSize]int
 	fillSlice(bigArr[:])
-	//fmt.Println(bigArr)
 
 	//testFn(solution1, bigArr)
 	//testFn(solution2, bigArr)
