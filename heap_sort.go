@@ -1,17 +1,17 @@
+// Reference from Go SDK 1.10.2 package sort.
+
 package main
 
 import "sort"
 
-// 对data中的数据进行heap排序
-func HeapSort(data sort.Interface) {
-	n := data.Len()
-	makeHeap(data, 0, n)
-	heapSort(data, 0, n)
+// 对data[a, b)中的数据进行heap排序
+func heapSort(data sort.Interface, a, b int) {
+	makeHeap(data, a, b)
+	heapsort(data, a, b)
 }
 
 // siftDown implements the heap property on data[lo, hi).
 // first is an offset into the array where the root of the heap lies.
-// Reference from Go SDK 1.10.2 package sort.
 // 对data[lo, hi)内的元素进行siftDown处理，以满足heap序列的要求
 func siftDown(data sort.Interface, lo, hi, first int) {
 	root := lo
@@ -46,7 +46,7 @@ func makeHeap(data sort.Interface, a, b int) {
 }
 
 // 将一个max-heap进行堆排序
-func heapSort(data sort.Interface, a, b int) {
+func heapsort(data sort.Interface, a, b int) {
 	first := a
 	hi := b - a
 

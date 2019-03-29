@@ -1,3 +1,5 @@
+// Reference from Go SDK 1.10.2 package sort.
+
 package main
 
 import "sort"
@@ -107,6 +109,7 @@ func symMerge(data sort.Interface, a, m, b int) {
 // Data of the form 'x u v y' is changed to 'x v u y'.
 // Rotate performs at most b-a many calls to data.Swap.
 // Rotate assumes non-degenerate arguments: a < m && m < b.
+// 交换data[a, m)和data[m, b)的元素
 func rotate(data sort.Interface, a, m, b int) {
 	i := m - a
 	j := b - m
@@ -124,6 +127,7 @@ func rotate(data sort.Interface, a, m, b int) {
 	swapRange(data, m-i, m, i)
 }
 
+// 交换data[a, a+n)和data[b, b+n)的元素
 func swapRange(data sort.Interface, a, b, n int) {
 	for i := 0; i < n; i++ {
 		data.Swap(a+i, b+i)
