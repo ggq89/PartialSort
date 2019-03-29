@@ -8,38 +8,42 @@ import (
 )
 
 const (
-	//BIG_ARR_SIZE = 10*10*10*10*10*10*10*10
-	BIG_ARR_SIZE = 10*4
-	//RES_ARR_SIZE = 10*10*10
-	RES_ARR_SIZE = 10
-	//SplitPoint = 400
-	SplitPoint =0
+	BIG_ARR_SIZE = 10*10*10*10*10*10
+	RES_ARR_SIZE = 10*10*10
+	//BIG_ARR_SIZE = 10*4
+	//RES_ARR_SIZE = 10
 )
 
-func fillArr(BigArr []int) {
+func fillSlice(data []int) {
+	len := len(data)
+	n := len*10
+
 	rand.Seed(time.Now().Unix())
-	for i := 0; i < BIG_ARR_SIZE; i++ {
-		BigArr[i] = rand.Intn(BIG_ARR_SIZE*10)
+	for i := 0; i < len; i++ {
+		data[i] = rand.Intn(n)
 	}
 }
 
-type PartialSortFn func(data sort.Interface)
+type PartialSortFn func(data sort.Interface, m int)
 
-func testFn(fn PartialSortFn, BigArr [BIG_ARR_SIZE]int)  {
-	fn(sort.Reverse(sort.IntSlice(BigArr[:])))
-	fmt.Println(BigArr[:RES_ARR_SIZE])
+func testFn(fn PartialSortFn, BigArr [BIG_ARR_SIZE]int, m int)  {
+	start :=time.Now()
+	fn(sort.Reverse(sort.IntSlice(BigArr[:])), m)
+
+	fmt.Println(time.Since(start))
+	//fmt.Println(BigArr[:m])
 }
 
 func main() {
-	var BigArr [BIG_ARR_SIZE]int //:= make([]int, BIG_ARR_SIZE, BIG_ARR_SIZE)
-	fillArr(BigArr[:])
-	fmt.Println(BigArr)
+	var BigArr [BIG_ARR_SIZE]int
+	fillSlice(BigArr[:])
+	//fmt.Println(BigArr)
 
-	testFn(solution1, BigArr)
-	testFn(solution2, BigArr)
-	testFn(solution3, BigArr)
-	testFn(solution4, BigArr)
-	testFn(solution5, BigArr)
-	testFn(solution6, BigArr)
-	testFn(solution7, BigArr)
+	//testFn(solution1, BigArr, RES_ARR_SIZE)
+	//testFn(solution2, BigArr, RES_ARR_SIZE)
+	testFn(solution3, BigArr, RES_ARR_SIZE)
+	testFn(solution4, BigArr, RES_ARR_SIZE)
+	testFn(solution5, BigArr, RES_ARR_SIZE)
+	testFn(solution6, BigArr, RES_ARR_SIZE)
+	testFn(solution7, BigArr, RES_ARR_SIZE)
 }
