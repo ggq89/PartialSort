@@ -175,6 +175,14 @@ func solution6(data sort.Interface, m int)  {
 }
 
 func solution7(data sort.Interface, m int) {
+	PartialSort(data, m)
+}
+
+// PartialSort, Rearranges elements such that the range [0, m)
+// contains the sorted m smallest elements in the range [first, data.Len).
+// The order of equal elements is not guaranteed to be preserved.
+// The order of the remaining elements in the range [m, data.Len) is unspecified.
+func PartialSort(data sort.Interface, m int) {
 	//建max-heap
 	makeHeap(data, 0, m)
 	minElemIdx := 0
