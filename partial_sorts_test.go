@@ -11,7 +11,9 @@ var float64s = [...]float64{74.3, 59.0, math.Inf(1), 238.2, -784.0, 2.3, math.Na
 	math.NaN(), math.Inf(-1), 9845.768, -959.7485, 905, 7.8, 7.8}
 var strings = [...]string{"", "Hello", "foo", "bar", "foo", "f00", "%*&^*&^&", "***"}
 
+// 判断data中的元素是否是关于m部分有序的
 func IsPartialSorted(data sort.Interface, m int) bool {
+	// 1. 判断[0, m)中的元素是否全排序
 	mid := m-1
 	for i := mid; i > 0; i-- {
 		if data.Less(i, i-1) {
@@ -19,6 +21,7 @@ func IsPartialSorted(data sort.Interface, m int) bool {
 		}
 	}
 
+	// 2. 判断[m, data.Len)中的元素是否都不小于[0, m)中的元素
 	n := data.Len()
 	for i := m; i < n; i++ {
 		if data.Less(i, mid) {
